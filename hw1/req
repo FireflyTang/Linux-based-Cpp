@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifndef __ZYLIB__
+#include "zylib.h"
+#endif
+
+void Factorize( int n );
+int main()
+{ 
+int n;
+printf( ”This program factorize a number.\n” );
+printf( ”Input an integer which is not less than 2: ” ); 
+n = GetIntegerFromKeyboard();
+Factorize( n );
+system( "pause" );
+return 0;
+}

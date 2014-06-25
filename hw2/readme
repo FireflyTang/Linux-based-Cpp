@@ -1,0 +1,2 @@
+acquire 和reclaim 函数实现了在void* pool 已经初始化的情况下的内存管理
+采用buddy system系统
