@@ -25,24 +25,24 @@ struct __NODE{ ADT data; NODE next; };
 
 void before_read(LINKED_LIST list)
 {
-    pthread_mutex_lock (&list->rmutex);
+    pthread_mutex_lock (&list->wmutex);
     list->rcount++;
     if(list->rcount == 1)
     {
-        pthread_mutex_lock(&list->wmutex);
+        pthread_mutex_lock(&list->rmutex);
     };
-    pthread_mutex_unlock (&list->rmutex);
+    pthread_mutex_unlock (&list->wmutex);
 };
 
 void after_read(LINKED_LIST list)
 {
-    pthread_mutex_lock (&list->rmutex);
+    pthread_mutex_lock (&list->wmutex);
     list->rcount--;
     if(list->rcount == 0)
     {
-        pthread_mutex_unlock(&list->wmutex);
+        pthread_mutex_unlock(&list->rmutex);
     };
-    pthread_mutex_unlock (&list->rmutex);
+    pthread_mutex_unlock (&list->wmutex);
 };
 
 void before_write(LINKED_LIST list)
@@ -79,7 +79,7 @@ void LlDestroy( LINKED_LIST list, DESTROY_OBJECT destroy )
 
 void LlClear( LINKED_LIST list, DESTROY_OBJECT destroy )
 {
-    
+	before_write(list);
     if( !list )  PrintErrorMessage( FALSE, "LlClear: Parameter illegal." );
     while( list->head )
     {
